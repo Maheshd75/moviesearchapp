@@ -15,7 +15,6 @@ function App() {
   const [error, setError] = useState(null);
 
   const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
-  console.log(BACKEND_URL)
 
 
   // Function to fetch movies from the backend
@@ -24,8 +23,6 @@ function App() {
     setError(null);
     try {
       const response = await fetch(`${BACKEND_URL}/api/movies`); // Your backend API endpoint
-      console.log(response)
-     
       const data = await response.json();
       setMovies(data); // Set movies directly from backend
     } catch (err) {
