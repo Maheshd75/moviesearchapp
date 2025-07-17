@@ -15,6 +15,8 @@ function AdminDashboard({ onAddMovie }) {
   const [previewImageUrl, setPreviewImageUrl] = useState(''); // For image preview
   const [message, setMessage] = useState('');
 
+  const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setMovie((prevMovie) => ({
@@ -53,7 +55,7 @@ function AdminDashboard({ onAddMovie }) {
     formData.append('posterImage', posterFile); // 'posterImage' must match the field name in upload.single()
 
     try {
-      const response = await fetch('http://localhost:5000/api/movies', { // Adjust URL if backend is elsewhere
+      const response = await fetch(`${BACKEND_URL}/api/movies`, { // Adjust URL if backend is elsewhere
         method: 'POST',
         body: formData, // FormData automatically sets Content-Type to multipart/form-data
       });
