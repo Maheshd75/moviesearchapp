@@ -12,9 +12,7 @@ function Navbar() {
           <Link to="/" className="text-gray-300 hover:text-white">
             Home
           </Link>
-          <Link to="/admin" className="text-gray-300 hover:text-white">
-            Admin
-          </Link>
+         
         </div>
       </div>
     </nav>
