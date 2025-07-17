@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import SearchBar from './components/SearchBar';
@@ -19,30 +19,28 @@ function App() {
 
 
   // Function to fetch movies from the backend
-  const fetchMovies = useCallback(async () => {
+  const fetchMovies = async () => {
     setLoading(true);
     setError(null);
     try {
       const response = await fetch(`${BACKEND_URL}/api/movies`); // Your backend API endpoint
       console.log(response)
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
+     
       const data = await response.json();
       setMovies(data); // Set movies directly from backend
     } catch (err) {
       console.error("Failed to fetch movies:", err);
       setError('Failed to load movies. Please check if the backend server is running and accessible.');
       setMovies([]); // Clear movies if fetch fails
-    } finally {
-      setLoading(false);
+    } finally{
+      setLoading(false);}
     }
-  }, [BACKEND_URL]); // No dependencies for initial fetch, runs once on mount
+  ; // No dependencies for initial fetch, runs once on mount
 
   // Fetch movies when the component mounts
   useEffect(() => {
     fetchMovies();
-  }, [fetchMovies]); // Dependency array includes fetchMovies to satisfy useCallback linting
+  }, []); // Dependency array includes fetchMovies to satisfy useCallback linting
 
   const filteredMovies = movies.filter((movie) =>
     movie.title.toLowerCase().includes(searchTerm.toLowerCase())
