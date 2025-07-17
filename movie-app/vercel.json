@@ -5,18 +5,14 @@
       "src": "package.json",
       "use": "@vercel/static-build",
       "config": {
-        "outputDirectory": "build"
+        "outputDirectory": "dist"  <-- Changed from "build" to "dist" for Vite
       }
     }
   ],
   "routes": [
     {
-      "src": "/static/(.*)",
-      "dest": "/static/$1"
-    },
-    {
-      "src": "/sockjs-node/(.*)",
-      "dest": "/sockjs-node/$1"
+      "src": "/assets/(.*)",  <-- Common for Vite to bundle assets into a subfolder
+      "dest": "/assets/$1"
     },
     {
       "src": "/(.*)",
