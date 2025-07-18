@@ -18,12 +18,12 @@ app.get('/', (req, res) => {
 });
 
 // --- MongoDB Connection ---
-mongoose.connect(`${process.env.MONGO_URI}/movies`)
+await mongoose.connect(`${process.env.MONGO_URI}/movies`)
     .then(() => console.log('MongoDB connected successfully!'))
     .catch(err => console.error('MongoDB connection error:', err));
 
 // --- Cloudinary Configuration ---
-cloudinary.config({
+await cloudinary.config({
     cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
     api_key: process.env.CLOUDINARY_API_KEY,
     api_secret: process.env.CLOUDINARY_API_SECRET,
