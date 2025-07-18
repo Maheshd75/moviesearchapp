@@ -23,7 +23,7 @@ await mongoose.connect(`${process.env.MONGO_URI}/movies`)
     .catch(err => console.error('MongoDB connection error:', err));
 
 // --- Cloudinary Configuration ---
-await cloudinary.config({
+cloudinary.config({
     cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
     api_key: process.env.CLOUDINARY_API_KEY,
     api_secret: process.env.CLOUDINARY_API_SECRET,
