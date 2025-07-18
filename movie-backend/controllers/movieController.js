@@ -25,10 +25,14 @@ const addMovie = async (req, res) => {
     }
 
     try {
-        // Upload image to Cloudinary
-        const result = await cloudinary.uploader.upload(req.file.path, {
-            folder: "movie_posters", // Optional: folder in Cloudinary
-            use_filename: true,
+        // Construct the Data URI from the buffer
+        // req.file.mimetype will give you "image/jpeg", "image/png", etc.
+        const dataUri = `data:${req.file.mimetype};base64,${req.file.buffer.toString('base64')}`;
+
+        // Upload image to Cloudinary using the Data URI
+        const result = await cloudinary.uploader.upload(dataUri, {
+            folder: "movie_posters",
+            use_filename: true, // You can still use original filename for public_id if desired
             unique_filename: false,
         });
 
@@ -41,23 +45,18 @@ const addMovie = async (req, res) => {
             genre,
             releaseYear,
             director,
-            cast: cast ? cast.split(',').map(item => item.trim()) : [], // Handle comma-separated cast
+            cast: cast ? cast.split(',').map(item => item.trim()) : [],
         });
 
         res.status(201).json(movie);
     } catch (error) {
-        // If there's an error during Cloudinary upload or Mongoose save,
-        // you might want to delete the uploaded image from Cloudinary
-        // if (result && result.public_id) {
-        //     await cloudinary.uploader.destroy(result.public_id);
-        // }
-        if (error.code === 11000) { // MongoDB duplicate key error (for unique title)
+        console.error('Error in addMovie:', error); // Log the actual error for debugging
+        if (error.code === 11000) {
             return res.status(400).json({ message: 'A movie with this title already exists.' });
         }
         res.status(500).json({ message: error.message });
     }
 };
-
 // @desc    Get movie by ID
 // @route   GET /api/movies/:id
 // @access  Public
