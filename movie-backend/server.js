@@ -18,7 +18,7 @@ app.get('/', (req, res) => {
 });
 
 // --- MongoDB Connection ---
-await mongoose.connect(`${process.env.MONGO_URI}/movies`)
+mongoose.connect(`${process.env.MONGO_URI}/movies`)
     .then(() => console.log('MongoDB connected successfully!'))
     .catch(err => console.error('MongoDB connection error:', err));
 
